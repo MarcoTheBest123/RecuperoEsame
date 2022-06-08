@@ -20,7 +20,7 @@ public class ClientHandler implements Runnable {
     }
 
     public void run () {
-        this.buildCars();
+        this.buildCities();
         this.inizializeClientHandler();
         try {
             this.executeClientHandler();
@@ -62,7 +62,7 @@ public class ClientHandler implements Runnable {
                         out.println(s + " is not a command");
                         break;
                     case "more_expensive":
-                        out.println(gson.toJson(searchMaxPrice() + "€"));
+                        out.println(gson.toJson(searchMaxPrice()));
                         break;
 
                     case "all":
@@ -96,7 +96,7 @@ public class ClientHandler implements Runnable {
         return s;
     }
 
-    public void buildCars() {
+    public void buildCities() {
         cars.add(new Cars("BMW",10,15000.00));
         cars.add(new Cars("Ferrari",15,25000.00));
         cars.add(new Cars("Maserati",1,35000.00));
