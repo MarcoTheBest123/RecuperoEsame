@@ -20,7 +20,7 @@ public class ClientHandler implements Runnable {
     }
 
     public void run () {
-        this.buildCities();
+        this.buildCars();
         this.inizializeClientHandler();
         try {
             this.executeClientHandler();
@@ -96,7 +96,7 @@ public class ClientHandler implements Runnable {
         return s;
     }
 
-    public void buildCities() {
+    public void buildCars() {
         cars.add(new Cars("BMW",10,15000.00));
         cars.add(new Cars("Ferrari",15,25000.00));
         cars.add(new Cars("Maserati",1,35000.00));
