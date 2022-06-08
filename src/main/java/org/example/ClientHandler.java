@@ -48,6 +48,10 @@ public class ClientHandler implements Runnable {
     }
 
     void executeClientHandler() throws SocketException {
+        out.println("The commands that are available on in application are:");
+        out.println("more_expensive, which tells you which car has the highest price.");
+        out.println("all, which tells you all the cars registered in the application.");
+        out.println("all_sorted, which tells you all the cars sorted by their brand.");
         Gson gson = new Gson();
         String s;
         while (true) {
@@ -58,7 +62,7 @@ public class ClientHandler implements Runnable {
                         out.println(s + " is not a command");
                         break;
                     case "more_expensive":
-                        out.println(gson.toJson(searchMaxPrice()));
+                        out.println(gson.toJson(searchMaxPrice() + "€"));
                         break;
 
                     case "all":
