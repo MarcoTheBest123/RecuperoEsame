@@ -99,6 +99,7 @@ public class ClientHandler implements Runnable {
     public void buildCities() {
         pl.aggiungiAuto(new Cars("BMW",10,15000.00));
         pl.aggiungiAuto(new Cars("Maserati",1,35000.00));
+        pl.aggiungiAuto(new Cars("Maserati",1,35000.00));
         pl.aggiungiAuto(new Cars("Ferrari",15,25000.00));
     }
 
@@ -106,11 +107,9 @@ public class ClientHandler implements Runnable {
     Parkinglist searchMaxPrice() {
         sort_by_price();
         Parkinglist plf = new Parkinglist();
-        if (pl.cars.get(0).getPrice() == pl.cars.get(1).getPrice()) {
-            for (Cars car: pl.cars) {
-                if (pl.cars.get(0).getPrice() == car.getPrice()) {
-                    plf.aggiungiAuto(car);
-                }
+        for (Cars car: pl.cars) {
+            if (pl.cars.get(0).getPrice() == car.getPrice()) {
+                plf.aggiungiAuto(car);
             }
         }
         return plf;
