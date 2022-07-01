@@ -13,8 +13,7 @@ public class ClientHandler implements Runnable {
     Socket clientSocket;
     BufferedReader in;
     PrintWriter out;
-    static ArrayList<Cars> cars = new ArrayList<Cars>();
-    static ArrayList<Cars> expensive_cars = new ArrayList<Cars>();
+    Parkinglist pl = new Parkinglist();
 
     ClientHandler (Socket clientSocket) {
         this.clientSocket = clientSocket;
@@ -63,40 +62,16 @@ public class ClientHandler implements Runnable {
                         out.println(s + " is not a command");
                         break;
                     case "more_expensive":
-                        out.println("------------------------");
                         out.println(gson.toJson(searchMaxPrice()));
-                        out.println("------------------------");
-                        out.println("------------------------");
-                        out.println("{ Cars: [");
-                        for(Cars c: expensive_cars)
-                            out.println("   {\"brand\": " + "\"" + c.brand + "\"" + ", \"id\": " + c.id + ", \"price\": " + c.price + "}");
-                        out.println("]}");
-                        out.println("------------------------");
                         break;
 
                     case "all":
-                        out.println("------------------------");
-                        out.println(gson.toJson(cars));
-                        out.println("------------------------");
-                        out.println("------------------------");
-                        out.println("{ Cars: [");
-                        for(Cars c1: cars)
-                            out.println("    {\"brand\": " + "\"" + c1.brand + "\"" + ", \"id\": " + c1.id + ", \"price\": " + c1.price + "}");
-                        out.println("]}");
-                        out.println("------------------------");
+                        out.println(gson.toJson(pl));
                         break;
 
                     case "all_sorted":
                         sort_by_Brand();
-                        out.println("------------------------");
-                        out.println(gson.toJson(cars));
-                        out.println("------------------------");
-                        out.println("------------------------");
-                        out.println("{ Cars: [");
-                        for(Cars c2: cars)
-                            out.println("    {\"brand\": " + "\"" + c2.brand + "\"" + ", \"id\": " + c2.id + ", \"price\": " + c2.price + "}");
-                        out.println("]}");
-                        out.println("------------------------");
+                        out.println(gson.toJson(pl));
                         break;
                 }
 
@@ -122,20 +97,27 @@ public class ClientHandler implements Runnable {
     }
 
     public void buildCities() {
-        cars.add(new Cars("BMW",10,15000.00));
-        cars.add(new Cars("Maserati",1,35000.00));
-        cars.add(new Cars("Ferrari",15,25000.00));
+        pl.aggiungiAuto(new Cars("BMW",10,15000.00));
+        pl.aggiungiAuto(new Cars("Maserati",1,35000.00));
+        pl.aggiungiAuto(new Cars("Ferrari",15,25000.00));
     }
 
 
-    Cars searchMaxPrice() {
+    Parkinglist searchMaxPrice() {
         sort_by_price();
-        expensive_cars.add(cars.get(0));
-        return cars.get(0);
+        Parkinglist plf = new Parkinglist();
+        if (pl.cars.get(0).getPrice() == pl.cars.get(1).getPrice()) {
+            for (Cars car: pl.cars) {
+                if (pl.cars.get(0).getPrice() == car.getPrice()) {
+                    plf.aggiungiAuto(car);
+                }
+            }
+        }
+        return plf;
     }
 
     void sort_by_price() {
-        cars.sort((o1, o2) -> {
+        pl.cars.sort((o1, o2) -> {
             if (o1.getPrice() < o2.getPrice())
                 return 1;
             if (o1.getPrice() > o2.getPrice())
@@ -145,7 +127,7 @@ public class ClientHandler implements Runnable {
     }
 
     void sort_by_Brand() {
-        cars.sort((o1, o2) -> {
+        pl.cars.sort((o1, o2) -> {
             return o1.getBrand().compareTo(o2.getBrand());
         });
     }
