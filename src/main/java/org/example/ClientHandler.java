@@ -63,15 +63,29 @@ public class ClientHandler implements Runnable {
                         break;
                     case "more_expensive":
                         out.println(gson.toJson(searchMaxPrice()));
+                        String jsonList = "[{\"brand\": \"Maserati\", \"id\": 1, \"price\": 35000.00}]";
+                        Cars[] carsList = gson.fromJson(jsonList, Cars[].class);
+                        System.out.println("{ Cars: [");
+                        for(Cars c: carsList)
+                            System.out.println("{brand: " + c.brand + " id: " + c.id + " price: " + c.price + "}");
+                        System.out.println("]}");
                         break;
 
                     case "all":
                         out.println(gson.toJson(cars));
+                        System.out.println("{ Cars: [");
+                        for(Cars c1: cars)
+                            System.out.println("    {brand: " + c1.brand + " id: " + c1.id + " price: " + c1.price + "}");
+                        System.out.println("]}");
                         break;
 
                     case "all_sorted":
                         sort_by_Brand();
                         out.println(gson.toJson(cars));
+                        System.out.println("{ Cars: [");
+                        for(Cars c2: cars)
+                            System.out.println("    {brand: " + c2.brand + " id: " + c2.id + " price: " + c2.price + "}");
+                        System.out.println("]}");
                         break;
                 }
 

@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class Server {
 
-    static int portNumer = 8000;
+    static int portNumber = 8000;
     static Socket clientSocket = null;
 
     public static void main(String[] args) {
@@ -32,7 +32,7 @@ public class Server {
         ServerSocket serverSocket = null;
 
         try {
-            serverSocket = new ServerSocket(portNumer);
+            serverSocket = new ServerSocket(portNumber);
 
         } catch (IOException e) {
             e.printStackTrace();
