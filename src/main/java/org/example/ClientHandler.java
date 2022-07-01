@@ -14,6 +14,7 @@ public class ClientHandler implements Runnable {
     BufferedReader in;
     PrintWriter out;
     static ArrayList<Cars> cars = new ArrayList<Cars>();
+    static ArrayList<Cars> expensive_cars = new ArrayList<Cars>();
 
     ClientHandler (Socket clientSocket) {
         this.clientSocket = clientSocket;
@@ -62,30 +63,40 @@ public class ClientHandler implements Runnable {
                         out.println(s + " is not a command");
                         break;
                     case "more_expensive":
+                        out.println("------------------------");
                         out.println(gson.toJson(searchMaxPrice()));
-                        String jsonList = "[{\"brand\": \"Maserati\", \"id\": 1, \"price\": 35000.00}]";
-                        Cars[] carsList = gson.fromJson(jsonList, Cars[].class);
-                        System.out.println("{ Cars: [");
-                        for(Cars c: carsList)
-                            System.out.println("{brand: " + c.brand + " id: " + c.id + " price: " + c.price + "}");
-                        System.out.println("]}");
+                        out.println("------------------------");
+                        out.println("------------------------");
+                        out.println("{ Cars: [");
+                        for(Cars c: expensive_cars)
+                            out.println("   {\"brand\": " + "\"" + c.brand + "\"" + ", \"id\": " + c.id + ", \"price\": " + c.price + "}");
+                        out.println("]}");
+                        out.println("------------------------");
                         break;
 
                     case "all":
+                        out.println("------------------------");
                         out.println(gson.toJson(cars));
-                        System.out.println("{ Cars: [");
+                        out.println("------------------------");
+                        out.println("------------------------");
+                        out.println("{ Cars: [");
                         for(Cars c1: cars)
-                            System.out.println("    {brand: " + c1.brand + " id: " + c1.id + " price: " + c1.price + "}");
-                        System.out.println("]}");
+                            out.println("    {\"brand\": " + "\"" + c1.brand + "\"" + ", \"id\": " + c1.id + ", \"price\": " + c1.price + "}");
+                        out.println("]}");
+                        out.println("------------------------");
                         break;
 
                     case "all_sorted":
                         sort_by_Brand();
+                        out.println("------------------------");
                         out.println(gson.toJson(cars));
-                        System.out.println("{ Cars: [");
+                        out.println("------------------------");
+                        out.println("------------------------");
+                        out.println("{ Cars: [");
                         for(Cars c2: cars)
-                            System.out.println("    {brand: " + c2.brand + " id: " + c2.id + " price: " + c2.price + "}");
-                        System.out.println("]}");
+                            out.println("    {\"brand\": " + "\"" + c2.brand + "\"" + ", \"id\": " + c2.id + ", \"price\": " + c2.price + "}");
+                        out.println("]}");
+                        out.println("------------------------");
                         break;
                 }
 
@@ -112,13 +123,14 @@ public class ClientHandler implements Runnable {
 
     public void buildCities() {
         cars.add(new Cars("BMW",10,15000.00));
-        cars.add(new Cars("Ferrari",15,25000.00));
         cars.add(new Cars("Maserati",1,35000.00));
+        cars.add(new Cars("Ferrari",15,25000.00));
     }
 
 
     Cars searchMaxPrice() {
         sort_by_price();
+        expensive_cars.add(cars.get(0));
         return cars.get(0);
     }
 
